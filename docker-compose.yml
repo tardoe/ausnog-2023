@@ -1,0 +1,168 @@
+---
+version: '3.7'
+
+volumes:
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+  netbox-media-files:
+    driver: local
+  netbox-postgres-data:
+    driver: local
+  netbox-redis-cache-data:
+    driver: local
+  netbox-redis-data:
+    driver: local
+  netbox-reports-files:
+    driver: local
+  netbox-scripts-files:
+    driver: local
+
+networks:
+  inband:
+    driver: macvlan
+    driver_opts:
+      parent: br-inband
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+          gateway: 172.30.0.1
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    ports:
+      - 9090:9090
+    networks:
+      inband:
+        ipv4_address: 172.30.0.2
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+    command: --config.file=/etc/prometheus/prometheus.yml
+    extra_hosts: &extra_hosts
+      - edge1.tdr.id.au:172.30.0.11
+      - edge2.tdr.id.au:172.30.0.12
+      - pe1.tdr.id.au:172.30.0.13
+      - pe2.tdr.id.au:172.30.0.14
+  
+  gnmic:
+    image: ghcr.io/openconfig/gnmic:0.31.1
+    restart: unless-stopped
+    volumes:
+      - ./gnmic:/etc/gnmic:ro
+    ports: 
+      - 9894:9894
+    networks:
+      inband:
+        ipv4_address: 172.30.0.3
+    command: "subscribe --backoff 1s --config /etc/gnmic/gnmic.yaml"
+    <<: *extra_hosts
+
+  snmp_exporter:
+    image: quay.io/ricardbejarano/snmp_exporter:latest
+    restart: unless-stopped
+    ports:
+      - 9116:9116
+    networks:
+      inband:
+        ipv4_address: 172.30.0.4
+    volumes:
+      - ./snmp_exporter:/etc/snmp_exporter/
+    <<: *extra_hosts
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      inband:
+        ipv4_address: 172.30.0.5
+    volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana-data:/var/lib/grafana
+
+# ------- 
+# Netbox
+# Modified from: https://github.com/netbox-community/netbox-docker/tree/release
+# -------
+  netbox: &netbox
+    image: docker.io/netboxcommunity/netbox:${VERSION-v3.5-2.6.1}
+    depends_on:
+    - postgres
+    - redis
+    - redis-cache
+    env_file: netbox/netbox.env
+    user: 'unit:root'
+    healthcheck:
+      start_period: 60s
+      timeout: 3s
+      interval: 15s
+      test: "curl -f http://localhost:8080/api/ || exit 1"
+    volumes:
+    - ./netbox/configuration:/etc/netbox/config:z,ro
+    - netbox-media-files:/opt/netbox/netbox/media:z,rw
+    - netbox-reports-files:/opt/netbox/netbox/reports:z,rw
+    - netbox-scripts-files:/opt/netbox/netbox/scripts:z,rw
+  
+  netbox-worker:
+    <<: *netbox
+    depends_on:
+      netbox:
+        condition: service_healthy
+    command:
+    - /opt/netbox/venv/bin/python
+    - /opt/netbox/netbox/manage.py
+    - rqworker
+    healthcheck:
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      test: "ps -aux | grep -v grep | grep -q rqworker || exit 1"
+
+  netbox-housekeeping:
+    <<: *netbox
+    depends_on:
+      netbox:
+        condition: service_healthy
+    command:
+    - /opt/netbox/housekeeping.sh
+    healthcheck:
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      test: "ps -aux | grep -v grep | grep -q housekeeping || exit 1"
+
+  # postgres
+  postgres:
+    image: docker.io/postgres:15-alpine
+    env_file: netbox/postgres.env
+    volumes:
+    - netbox-postgres-data:/var/lib/postgresql/data
+
+  # redis
+  redis:
+    image: docker.io/redis:7-alpine
+    command:
+    - sh
+    - -c # this is to evaluate the $REDIS_PASSWORD from the env
+    - redis-server --appendonly yes --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
+    env_file: netbox/redis.env
+    volumes:
+    - netbox-redis-data:/data
+  
+  redis-cache:
+    image: docker.io/redis:7-alpine
+    command:
+    - sh
+    - -c # this is to evaluate the $REDIS_PASSWORD from the env
+    - redis-server --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
+    env_file: netbox/redis-cache.env
+    volumes:
+    - netbox-redis-cache-data:/data
+
+

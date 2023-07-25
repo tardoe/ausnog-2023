@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  netbox:
+    networks:
+        inband:
+          ipv4_address: 172.30.0.100
+    ports:
+      - 8000:8080
+
+  netbox-worker:
+    networks:
+      inband:
+        ipv4_address: 172.30.0.101
+
+  netbox-housekeeping:
+    networks:
+      inband:
+        ipv4_address: 172.30.0.102
+
+  postgres:
+    networks:
+      inband:
+        ipv4_address: 172.30.0.103
+
+  redis:
+    networks:
+      inband:
+        ipv4_address: 172.30.0.104
+
+  redis-cache:
+    networks:
+      inband:
+        ipv4_address: 172.30.0.105

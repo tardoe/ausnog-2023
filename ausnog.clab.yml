@@ -1,0 +1,31 @@
+name: ausnog23
+
+topology:
+  nodes:
+    edge1:
+      kind: srl
+      type: ixrd3l
+      image: ghcr.io/nokia/srlinux
+    edge2:
+      kind: srl
+      type: ixrd3l
+      image: ghcr.io/nokia/srlinux
+    pe1:
+      kind: vr-vmx
+      image: vrnetlab/vr-vmx:23.2R1.13
+    pe2:
+      kind: vr-vmx
+      image: vrnetlab/vr-vmx:23.2R1.13
+    br-inband:
+      kind: bridge
+
+  links:
+    - endpoints: ["edge1:e1-1", "pe1:eth1"]
+    - endpoints: ["edge1:e1-2", "pe2:eth1"]
+    - endpoints: ["edge2:e1-1", "pe1:eth2"]
+    - endpoints: ["edge2:e1-2", "pe2:eth2"]
+    # Inband management bridge (external)
+    - endpoints: ["edge1:e1-3", "br-inband:eth1"]
+    - endpoints: ["edge2:e1-3", "br-inband:eth2"]
+    - endpoints: ["pe1:eth3", "br-inband:eth3"]
+    - endpoints: ["pe2:eth3", "br-inband:eth4"]
