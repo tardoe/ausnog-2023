@@ -2,8 +2,9 @@ version: '3.7'
 services:
   netbox:
     networks:
-        inband:
-          ipv4_address: 172.30.0.100
+      default:
+      inband:
+        ipv4_address: 172.30.0.100
     ports:
       - 8000:8080
 

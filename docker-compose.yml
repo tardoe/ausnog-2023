@@ -36,13 +36,14 @@ services:
     ports:
       - 9090:9090
     networks:
+      default:
       inband:
         ipv4_address: 172.30.0.2
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus-data:/prometheus
     command: --config.file=/etc/prometheus/prometheus.yml
-    extra_hosts: &extra_hosts
+    extra_hosts:
       - edge1.tdr.id.au:172.30.0.11
       - edge2.tdr.id.au:172.30.0.12
       - pe1.tdr.id.au:172.30.0.13
@@ -59,7 +60,11 @@ services:
       inband:
         ipv4_address: 172.30.0.3
     command: "subscribe --backoff 1s --config /etc/gnmic/gnmic.yaml"
-    <<: *extra_hosts
+    extra_hosts:
+      - edge1.tdr.id.au:172.30.0.11
+      - edge2.tdr.id.au:172.30.0.12
+      - pe1.tdr.id.au:172.30.0.13
+      - pe2.tdr.id.au:172.30.0.14
 
   snmp_exporter:
     image: quay.io/ricardbejarano/snmp_exporter:latest
@@ -71,7 +76,11 @@ services:
         ipv4_address: 172.30.0.4
     volumes:
       - ./snmp_exporter:/etc/snmp_exporter/
-    <<: *extra_hosts
+    extra_hosts:
+      - edge1.tdr.id.au:172.30.0.11
+      - edge2.tdr.id.au:172.30.0.12
+      - pe1.tdr.id.au:172.30.0.13
+      - pe2.tdr.id.au:172.30.0.14
 
   blackbox:
     image: quay.io/prometheus/blackbox-exporter:latest
@@ -83,6 +92,11 @@ services:
         ipv4_address: 172.30.0.6
     volumes:
       - ./blackbox/config:/config:ro
+    extra_hosts:
+      - edge1.tdr.id.au:172.30.0.11
+      - edge2.tdr.id.au:172.30.0.12
+      - pe1.tdr.id.au:172.30.0.13
+      - pe2.tdr.id.au:172.30.0.14
 
   grafana:
     image: grafana/grafana:latest
@@ -90,6 +104,7 @@ services:
     ports:
       - 3000:3000
     networks:
+      default:
       inband:
         ipv4_address: 172.30.0.5
     volumes:
