@@ -73,6 +73,17 @@ services:
       - ./snmp_exporter:/etc/snmp_exporter/
     <<: *extra_hosts
 
+  blackbox:
+    image: quay.io/prometheus/blackbox-exporter:latest
+    restart: unless-stopped
+    ports:
+      - 9115:9115
+    networks:
+      inband:
+        ipv4_address: 172.30.0.6
+    volumes:
+      - ./blackbox/config:/config:ro
+
   grafana:
     image: grafana/grafana:latest
     restart: unless-stopped
@@ -91,7 +102,7 @@ services:
 # Modified from: https://github.com/netbox-community/netbox-docker/tree/release
 # -------
   netbox: &netbox
-    image: docker.io/netboxcommunity/netbox:${VERSION-v3.5-2.6.1}
+    image: tardoe/netbox:tardoe-prom-secrets-v5
     depends_on:
     - postgres
     - redis

@@ -1,3 +1,23 @@
 global:
   scrape_interval:     10s 
   evaluation_interval: 10s 
+
+scrape_configs:
+  - job_name: ping_nb_devices
+    scrape_interval: 10s
+    http_sd_configs:
+      - url: http://netbox:8080/api/plugins/prometheus-sd/devices?status=active
+        refresh_interval: 10s
+        authorization:
+          type: Token
+          credentials: 13011cc19731ad3a3c6de287e10211b44c6a43a2
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
