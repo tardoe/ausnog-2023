@@ -61,7 +61,7 @@ services:
     volumes:
       - ./gnmic:/etc/gnmic:ro
     ports: 
-      - 9894:9894
+      - 9804:9804
     networks:
       default:
       inband:
