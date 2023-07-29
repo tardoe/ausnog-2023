@@ -12,19 +12,16 @@ loader:
   auth-scheme: Token
 
 subscriptions:
-  openconfig_interfaces:
-      paths:
-        - /interfaces/interface[name=*]/state/counters
-        - /interfaces/interface[name=*]/state/admin-status
-        - /interfaces/interface[name=*]/state/oper-status
-        - /interfaces/interface[name=*]/state/last-change
-        - /interfaces/interface[name=*]/ethernet/state/port-speed
-        - /interfaces/interface[name=*]/ethernet/state/counters/in-crc-errors
-        - /interfaces/interface[name=*]/ethernet/state/counters/in-fragment-frames
-        - /interfaces/interface[name=*]/ethernet/state/counters/in-jabber-frames
-        - /interfaces/interface[name=*]/ethernet/state/counters/in-oversize-frames
-      stream-mode: sample
-      sample-interval: 10s
+  nokia_interfaces:
+    paths:
+      - /interface[name=ethernet-1/*]/statistics
+    stream-mode: sample
+    sample-interval: 10s
+  juniper_interfaces:
+    paths:
+      - /interfaces/interface[name=*]/state/counters
+    stream-mode: sample
+    sample-interval: 10s
 
 outputs:
   prometheus:
