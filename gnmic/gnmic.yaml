@@ -1,8 +1,6 @@
 port: 57400
 timeout: 10s
 insecure: true
-debug: true
-log: true
 
 loader:
   type: http
