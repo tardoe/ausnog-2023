@@ -1,6 +1,8 @@
 port: 57400
 timeout: 10s
 insecure: true
+debug: true
+log: true
 
 loader:
   type: http
@@ -30,3 +32,6 @@ outputs:
       url: http://prometheus:9090/api/v1/write
       metadata:
         include: true
+  debug-prom:
+    type: prometheus
+    strings-as-labels: true
