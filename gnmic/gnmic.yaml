@@ -2,11 +2,12 @@ port: 57400
 timeout: 10s
 insecure: true
 
-targets:
-  edge1.tdr.id.au:
-  edge2.tdr.id.au:
-  pe1.tdr.id.au:
-  pe2.tdr.id.au:
+loader:
+  type: http
+  url: http://netbox:8080/api/dcim/devices?export=gnmic%20Target%20Export
+  interval: 30s
+  token: d140bcb0358eef4562178651abc435fe23778300
+  auth-scheme: Token
 
 subscriptions:
   openconfig_interfaces:
