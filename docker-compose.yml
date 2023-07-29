@@ -45,7 +45,7 @@ services:
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus-data:/prometheus
-    command: --config.file=/etc/prometheus/prometheus.yml
+    command: --config.file=/etc/prometheus/prometheus.yml --web.enable-remote-write-receiver
     extra_hosts:
       - edge1.tdr.id.au:172.30.0.11
       - edge2.tdr.id.au:172.30.0.12

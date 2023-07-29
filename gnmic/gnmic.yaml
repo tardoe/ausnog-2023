@@ -23,12 +23,30 @@ subscriptions:
     stream-mode: sample
     sample-interval: 10s
 
+processors:
+  remove_path_in_name:
+    event-strings:
+      value-names:
+        - ".*"
+      transforms:
+        - path-base:
+            apply-on: "name"
+
 outputs:
   prometheus:
-      type: prometheus_write
-      url: http://prometheus:9090/api/v1/write
-      metadata:
-        include: true
+    type: prometheus_write
+    url: http://prometheus:9090/api/v1/write
+    append-subscription-name: true
+    strings-as-labels: true
+    interval: 10s
+    metadata:
+      include: true
+    metric-prefix: "gnmic"
+    event-processors:
+      - remove_path_in_name
+
   debug-prom:
     type: prometheus
     strings-as-labels: true
+    event-processors:
+      - remove_path_in_name
