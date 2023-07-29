@@ -39,9 +39,6 @@ outputs:
     append-subscription-name: true
     strings-as-labels: true
     interval: 10s
-    metadata:
-      include: true
-    metric-prefix: "gnmic"
     event-processors:
       - remove_path_in_name
 
