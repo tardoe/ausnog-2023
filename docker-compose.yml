@@ -117,7 +117,7 @@ services:
 # Modified from: https://github.com/netbox-community/netbox-docker/tree/release
 # -------
   netbox: &netbox
-    image: tardoe/netbox:tardoe-prom-secrets-v5
+    image: ghcr.io/tardoe/ausnog23-netbox-prom-secrets:v5
     depends_on:
     - postgres
     - redis
