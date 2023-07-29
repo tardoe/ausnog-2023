@@ -33,6 +33,9 @@ services:
   prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped
+    depends_on:
+      netbox:
+        condition: service_healthy
     ports:
       - 9090:9090
     networks:
@@ -52,6 +55,9 @@ services:
   gnmic:
     image: ghcr.io/openconfig/gnmic:0.31.1
     restart: unless-stopped
+    depends_on:
+      netbox:
+        condition: service_healthy
     volumes:
       - ./gnmic:/etc/gnmic:ro
     ports: 
@@ -130,7 +136,6 @@ services:
       interval: 15s
       test: "curl -f http://localhost:8080/api/ || exit 1"
     volumes:
-    - ./netbox/configuration:/etc/netbox/config:z,ro
     - netbox-media-files:/opt/netbox/netbox/media:z,rw
     - netbox-reports-files:/opt/netbox/netbox/reports:z,rw
     - netbox-scripts-files:/opt/netbox/netbox/scripts:z,rw
