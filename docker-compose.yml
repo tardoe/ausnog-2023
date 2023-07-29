@@ -63,6 +63,7 @@ services:
     ports: 
       - 9894:9894
     networks:
+      default:
       inband:
         ipv4_address: 172.30.0.3
     command: "subscribe --backoff 1s --config /etc/gnmic/gnmic.yaml"
@@ -78,6 +79,7 @@ services:
     ports:
       - 9116:9116
     networks:
+      default:
       inband:
         ipv4_address: 172.30.0.4
     volumes:
@@ -94,6 +96,7 @@ services:
     ports:
       - 9115:9115
     networks:
+      default:
       inband:
         ipv4_address: 172.30.0.6
     volumes:
