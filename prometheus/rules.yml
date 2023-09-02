@@ -1,0 +1,20 @@
+groups:
+  - name: metrics_enrichment
+    interval: 30s
+    rules:
+     - record: interface_bitrate_rx:30s
+       expr: rate(in_octets[30s]) * on (device) group_left (manufacturer, device_type, device_role, site, region, rack, location) netbox_devices * on (device,interface_name) group_left (connected_device, connected_device_interface) netbox_interfaces
+     - record: interface_bitrate_tx:30s
+       expr: rate(out_octets[30s]) * on (device) group_left (manufacturer, device_type, device_role, site, region, rack, location) netbox_devices * on (device,interface_name) group_left (connected_device, connected_device_interface) netbox_interfaces
+     - record: interface_mc_pkts_rx:30s
+       expr: rate(in_multicast_packets[30s]) * on (device) group_left (manufacturer, device_type, device_role, site, region, rack, location) netbox_devices * on (device,interface_name) group_left (connected_device, connected_device_interface) netbox_interfaces
+     - record: interface_mc_pkts_tx:30s
+       expr: rate(out_multicast_packets[30s]) * on (device) group_left (manufacturer, device_type, device_role, site, region, rack, location) netbox_devices * on (device,interface_name) group_left (connected_device, connected_device_interface) netbox_interfaces
+     - record: interface_uc_pkts_rx:30s
+       expr: rate(in_pkts[30s]) * on (device) group_left (manufacturer, device_type, device_role, site, region, rack, location) netbox_devices * on (device,interface_name) group_left (connected_device, connected_device_interface) netbox_interfaces
+     - record: interface_uc_pkts_tx:30s
+       expr: rate(out_pkts[30s]) * on (device) group_left (manufacturer, device_type, device_role, site, region, rack, location) netbox_devices * on (device,interface_name) group_left (connected_device, connected_device_interface) netbox_interfaces
+     - record: interface_bc_pkts_rx:30s
+       expr: rate(in_broadcast_packets[30s]) * on (device) group_left (manufacturer, device_type, device_role, site, region, rack, location) netbox_devices * on (device,interface_name) group_left (connected_device, connected_device_interface) netbox_interfaces
+     - record: interface_bc_pkts_tx:30s
+       expr: rate(out_broadcast_packets[30s]) * on (device) group_left (manufacturer, device_type, device_role, site, region, rack, location) netbox_devices * on (device,interface_name) group_left (connected_device, connected_device_interface) netbox_interfaces

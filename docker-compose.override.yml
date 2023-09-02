@@ -20,15 +20,18 @@ services:
 
   postgres:
     networks:
+      default:
       inband:
         ipv4_address: 172.30.0.103
 
   redis:
     networks:
+      default:
       inband:
         ipv4_address: 172.30.0.104
 
   redis-cache:
     networks:
+      default:
       inband:
         ipv4_address: 172.30.0.105

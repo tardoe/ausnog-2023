@@ -121,6 +121,19 @@ services:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
       - grafana-data:/var/lib/grafana
 
+
+  netbox_exporter:
+    image: ghcr.io/tardoe/ausnog23-netbox_exporter:v1
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+    networks:
+      default:
+    environment:
+      NETBOX_HOST: http://netbox:8080/
+      NETBOX_TOKEN: 1dad93aefca48120f2d5f04aaf30aa731ac06705
+
+
 # ------- 
 # Netbox
 # Modified from: https://github.com/netbox-community/netbox-docker/tree/release

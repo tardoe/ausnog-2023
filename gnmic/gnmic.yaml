@@ -31,17 +31,17 @@ processors:
             apply-on: "name"
 
 outputs:
-  prometheus:
-    type: prometheus_write
-    url: http://prometheus:9090/api/v1/write
-    append-subscription-name: true
-    strings-as-labels: true
-    interval: 10s
-    event-processors:
-      - remove_path_in_name
+#  prometheus_push:
+#    type: prometheus_write
+#    url: http://prometheus:9090/api/v1/write
+#    append-subscription-name: true
+#    strings-as-labels: true
+#    interval: 10s
+#    event-processors:
+#      - remove_path_in_name
 
-  debug-prom:
+  prometheus_scrape:
     type: prometheus
     strings-as-labels: true
     event-processors:
-      - remove_path_in_name
+       - remove_path_in_name
