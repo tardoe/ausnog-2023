@@ -6,27 +6,32 @@ topology:
       kind: srl
       type: ixrd3l
       image: ghcr.io/nokia/srlinux
+      startup-config: edge1-config.json
     edge2:
       kind: srl
       type: ixrd3l
       image: ghcr.io/nokia/srlinux
+      startup-config: edge2-config.json
     pe1:
-      kind: vr-vmx
-      image: vrnetlab/vr-vmx:23.2R1.13
+      kind: srl
+      type: ixrd3l
+      image: ghcr.io/nokia/srlinux
+      startup-config: pe1-config.json
     pe2:
-      kind: vr-vmx
-      image: vrnetlab/vr-vmx:23.2R1.13
+      kind: srl
+      type: ixrd3l
+      image: ghcr.io/nokia/srlinux
+      startup-config: pe2-config.json
     br-inband:
       kind: bridge
 
   links:
-    - endpoints: ["edge1:e1-1", "pe1:eth1"]
-    - endpoints: ["edge1:e1-2", "pe2:eth1"]
-    - endpoints: ["edge2:e1-1", "pe1:eth2"]
-    - endpoints: ["edge2:e1-2", "pe2:eth2"]
+    - endpoints: ["edge1:e1-1", "pe1:e1-1"]
+    - endpoints: ["edge1:e1-2", "pe2:e1-1"]
+    - endpoints: ["edge2:e1-1", "pe1:e1-2"]
+    - endpoints: ["edge2:e1-2", "pe2:e1-2"]
     # Inband management bridge (external)
     - endpoints: ["edge1:e1-3", "br-inband:eth1"]
     - endpoints: ["edge2:e1-3", "br-inband:eth2"]
-    - endpoints: ["pe1:eth3", "br-inband:eth3"]
-    - endpoints: ["pe2:eth3", "br-inband:eth4"]
-
+    - endpoints: ["pe1:e1-3", "br-inband:eth3"]
+    - endpoints: ["pe2:e1-3", "br-inband:eth4"]
