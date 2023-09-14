@@ -10,8 +10,6 @@ all:
           ansible_host: 172.20.20.2
         clab-ausnog23-edge2:
           ansible_host: 172.20.20.3
-    vr-vmx:
-      hosts:
         clab-ausnog23-pe1:
           ansible_host: 172.20.20.5
         clab-ausnog23-pe2:

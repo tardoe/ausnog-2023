@@ -6,7 +6,7 @@
       "prefix": "clab",
       "mgmt": {
         "network": "clab",
-        "bridge": "br-35d605cec8dd",
+        "bridge": "br-fdfa3a0e88da",
         "ipv4-subnet": "172.20.20.0/24",
         "ipv4-gw": "172.20.20.1",
         "ipv6-subnet": "2001:172:20:20::/64",
@@ -34,7 +34,7 @@
       "mgmt-ipv6-prefix-length": 0,
       "mac-address": "",
       "labels": {
-        "clab-mgmt-net-bridge": "br-35d605cec8dd",
+        "clab-mgmt-net-bridge": "br-fdfa3a0e88da",
         "clab-node-group": "",
         "clab-node-kind": "bridge",
         "clab-node-lab-dir": "/home/tim/ausnog-2023/clab-ausnog23/br-inband",
@@ -61,7 +61,7 @@
       "mgmt-ipv6-prefix-length": 64,
       "mac-address": "",
       "labels": {
-        "clab-mgmt-net-bridge": "br-35d605cec8dd",
+        "clab-mgmt-net-bridge": "br-fdfa3a0e88da",
         "clab-node-group": "",
         "clab-node-kind": "srl",
         "clab-node-lab-dir": "/home/tim/ausnog-2023/clab-ausnog23/edge1",
@@ -88,7 +88,7 @@
       "mgmt-ipv6-prefix-length": 64,
       "mac-address": "",
       "labels": {
-        "clab-mgmt-net-bridge": "br-35d605cec8dd",
+        "clab-mgmt-net-bridge": "br-fdfa3a0e88da",
         "clab-node-group": "",
         "clab-node-kind": "srl",
         "clab-node-lab-dir": "/home/tim/ausnog-2023/clab-ausnog23/edge2",
@@ -105,8 +105,8 @@
       "fqdn": "pe1.ausnog23.io",
       "group": "",
       "labdir": "/home/tim/ausnog-2023/clab-ausnog23/pe1",
-      "kind": "vr-vmx",
-      "image": "vrnetlab/vr-vmx:23.2R1.13",
+      "kind": "srl",
+      "image": "ghcr.io/nokia/srlinux",
       "mgmt-net": "",
       "mgmt-intf": "",
       "mgmt-ipv4-address": "172.20.20.5",
@@ -115,12 +115,12 @@
       "mgmt-ipv6-prefix-length": 64,
       "mac-address": "",
       "labels": {
-        "clab-mgmt-net-bridge": "br-35d605cec8dd",
+        "clab-mgmt-net-bridge": "br-fdfa3a0e88da",
         "clab-node-group": "",
-        "clab-node-kind": "vr-vmx",
+        "clab-node-kind": "srl",
         "clab-node-lab-dir": "/home/tim/ausnog-2023/clab-ausnog23/pe1",
         "clab-node-name": "pe1",
-        "clab-node-type": "",
+        "clab-node-type": "ixrd3l",
         "clab-topo-file": "/home/tim/ausnog-2023/ausnog.clab.yml",
         "containerlab": "ausnog23"
       }
@@ -132,8 +132,8 @@
       "fqdn": "pe2.ausnog23.io",
       "group": "",
       "labdir": "/home/tim/ausnog-2023/clab-ausnog23/pe2",
-      "kind": "vr-vmx",
-      "image": "vrnetlab/vr-vmx:23.2R1.13",
+      "kind": "srl",
+      "image": "ghcr.io/nokia/srlinux",
       "mgmt-net": "",
       "mgmt-intf": "",
       "mgmt-ipv4-address": "172.20.20.4",
@@ -142,12 +142,12 @@
       "mgmt-ipv6-prefix-length": 64,
       "mac-address": "",
       "labels": {
-        "clab-mgmt-net-bridge": "br-35d605cec8dd",
+        "clab-mgmt-net-bridge": "br-fdfa3a0e88da",
         "clab-node-group": "",
-        "clab-node-kind": "vr-vmx",
+        "clab-node-kind": "srl",
         "clab-node-lab-dir": "/home/tim/ausnog-2023/clab-ausnog23/pe2",
         "clab-node-name": "pe2",
-        "clab-node-type": "",
+        "clab-node-type": "ixrd3l",
         "clab-topo-file": "/home/tim/ausnog-2023/ausnog.clab.yml",
         "containerlab": "ausnog23"
       }
@@ -158,13 +158,13 @@
       "a": {
         "node": "edge1",
         "interface": "e1-1",
-        "mac": "aa:c1:ab:ac:5e:07",
+        "mac": "aa:c1:ab:b2:d5:a2",
         "peer": "z"
       },
       "z": {
         "node": "pe1",
-        "interface": "eth1",
-        "mac": "aa:c1:ab:de:83:5e",
+        "interface": "e1-1",
+        "mac": "aa:c1:ab:c5:cc:71",
         "peer": "a"
       }
     },
@@ -172,13 +172,13 @@
       "a": {
         "node": "edge1",
         "interface": "e1-2",
-        "mac": "aa:c1:ab:f7:d5:45",
+        "mac": "aa:c1:ab:1f:6b:d0",
         "peer": "z"
       },
       "z": {
         "node": "pe2",
-        "interface": "eth1",
-        "mac": "aa:c1:ab:80:a8:2f",
+        "interface": "e1-1",
+        "mac": "aa:c1:ab:2c:74:2d",
         "peer": "a"
       }
     },
@@ -186,13 +186,13 @@
       "a": {
         "node": "edge2",
         "interface": "e1-1",
-        "mac": "aa:c1:ab:f2:05:61",
+        "mac": "aa:c1:ab:b2:6a:d1",
         "peer": "z"
       },
       "z": {
         "node": "pe1",
-        "interface": "eth2",
-        "mac": "aa:c1:ab:0b:f9:88",
+        "interface": "e1-2",
+        "mac": "aa:c1:ab:c4:7c:56",
         "peer": "a"
       }
     },
@@ -200,13 +200,13 @@
       "a": {
         "node": "edge2",
         "interface": "e1-2",
-        "mac": "aa:c1:ab:0f:07:eb",
+        "mac": "aa:c1:ab:b1:86:21",
         "peer": "z"
       },
       "z": {
         "node": "pe2",
-        "interface": "eth2",
-        "mac": "aa:c1:ab:d9:61:d1",
+        "interface": "e1-2",
+        "mac": "aa:c1:ab:1f:9c:81",
         "peer": "a"
       }
     },
@@ -214,13 +214,13 @@
       "a": {
         "node": "edge1",
         "interface": "e1-3",
-        "mac": "aa:c1:ab:81:e2:5c",
+        "mac": "aa:c1:ab:70:7f:2d",
         "peer": "z"
       },
       "z": {
         "node": "br-inband",
         "interface": "eth1",
-        "mac": "aa:c1:ab:76:e6:78",
+        "mac": "aa:c1:ab:6c:d3:35",
         "peer": "a"
       }
     },
@@ -228,41 +228,41 @@
       "a": {
         "node": "edge2",
         "interface": "e1-3",
-        "mac": "aa:c1:ab:f8:b0:61",
+        "mac": "aa:c1:ab:ad:da:8f",
         "peer": "z"
       },
       "z": {
         "node": "br-inband",
         "interface": "eth2",
-        "mac": "aa:c1:ab:a9:7c:16",
+        "mac": "aa:c1:ab:4a:78:93",
         "peer": "a"
       }
     },
     {
       "a": {
         "node": "pe1",
-        "interface": "eth3",
-        "mac": "aa:c1:ab:72:d6:09",
+        "interface": "e1-3",
+        "mac": "aa:c1:ab:f8:ae:7f",
         "peer": "z"
       },
       "z": {
         "node": "br-inband",
         "interface": "eth3",
-        "mac": "aa:c1:ab:23:02:a9",
+        "mac": "aa:c1:ab:d8:d0:a5",
         "peer": "a"
       }
     },
     {
       "a": {
         "node": "pe2",
-        "interface": "eth3",
-        "mac": "aa:c1:ab:37:6a:d4",
+        "interface": "e1-3",
+        "mac": "aa:c1:ab:73:d1:e3",
         "peer": "z"
       },
       "z": {
         "node": "br-inband",
         "interface": "eth4",
-        "mac": "aa:c1:ab:28:ea:67",
+        "mac": "aa:c1:ab:46:53:af",
         "peer": "a"
       }
     }
