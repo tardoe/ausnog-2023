@@ -190,6 +190,7 @@ services:
     env_file: netbox/postgres.env
     volumes:
     - netbox-postgres-data:/var/lib/postgresql/data
+    - ./netbox_seed.sql:/docker-entrypoint-initdb.d/netbox_seed.sql
 
   # redis
   redis:
