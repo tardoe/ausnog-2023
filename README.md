@@ -21,7 +21,7 @@ This repo sets up the following:
 
 
 ## Containerlab Network
-![Demo Network!](ausnog-demo-network.png)
+![Demo Network](ausnog-demo-network.png)
 From the root of the repo, you can start the container lab network by following the containerlab installation guide then issuing `clab deploy`. You should result with a network running:
 ```
 root@containerlab:/home/tim/ausnog-2023# clab inspect
@@ -75,3 +75,10 @@ The recording rules then marry this data with the data collected by the `gnmic` 
 
 ### gnmic
 This container subscribes to the SR Linux telemetry path `/interface[name=ethernet-1/*]/statistics` for Nokia devices and the OpenConfig standard path of `/interfaces/interface[name=*]/state/counters` for Juniper devices (not included in this lab, due to image licenses). These metrics are scraped by Prometheus periodically.  More info about configuration can be found here: http://gnmic.openconfig.net
+
+### SNMP Exporter
+This has also been included in case the user wishes to play with it - e.g. adding non-Nokia, non-Streaming Telemetry images to the containerlab.
+
+### Grafana
+Grafana comes pre-configured with a dashboard and datasource for prometheus with a few panels that help indicate how metrics can be displayed based on the dynamic data from Netbox.
+![Grafana Screenshot](grafana-screenshot.png)
