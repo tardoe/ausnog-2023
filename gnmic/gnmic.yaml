@@ -21,6 +21,7 @@ subscriptions:
     stream-mode: sample
     sample-interval: 10s
 
+## Removes the beginning of the path (/interfaces/interface/statistics/...)
 processors:
   remove_path_in_name:
     event-strings:
@@ -31,6 +32,8 @@ processors:
             apply-on: "name"
 
 outputs:
+## alternative method for gnmic to use the Prometheus remote-write interface
+## - limits the ability to manipulate metrics on scrape.
 #  prometheus_push:
 #    type: prometheus_write
 #    url: http://prometheus:9090/api/v1/write

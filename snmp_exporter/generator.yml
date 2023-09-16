@@ -1,11 +1,5 @@
 modules:
-# Juniper / Junos
-# 
-# https://www.circitor.fr/Mibs/Mib/J/JUNIPER-MIB.mib
-# https://www.circitor.fr/Mibs/Mib/J/JUNIPER-SMI.mib  
-# https://raw.githubusercontent.com/librenms/librenms/master/mibs/junos/JUNIPER-ALARM-MIB
-
-  juniper:
+  ifmib:
     walk:
       - 1.3.6.1.2.1.1.3  #System UPtime
       - 1.3.6.1.2.1.1.1  #System Descriptio
@@ -18,17 +12,6 @@ modules:
       - 1.3.6.1.2.1.31.1.1.1.15 #ifHighSpeed
       - 1.3.6.1.2.1.31.1.1.1.7 #ifHCInUcastPkts
       - 1.3.6.1.2.1.31.1.1.1.11 #ifHCOutUcastPkts
-      - 1.3.6.1.4.1.2636.3.1.13.1.6 #jnxOperatingState
-      - 1.3.6.1.4.1.2636.3.1.13.1.7 #jnxOperatingTemp
-      - 1.3.6.1.4.1.2636.3.1.13.1.8 #jnxOperatingCPU
-      - 1.3.6.1.4.1.2636.3.1.13.1.15 #jnxOperatingMemory
-      - 1.3.6.1.4.1.2636.3.1.13.1.11 #jnxOperatingBuffer
-      - 1.3.6.1.4.1.2636.3.1.13.1.12 #jnxOperatingHeap
-      - 1.3.6.1.4.1.2636.3.1.13.1.20 #jnxOperating1MinLoadAvg
-      - 1.3.6.1.4.1.2636.3.4.2.2.1 #jnxYellowAlarmState
-      - 1.3.6.1.4.1.2636.3.4.2.2.2 #jnxYellowAlarmCount
-      - 1.3.6.1.4.1.2636.3.4.2.3.1 #jnxRedAlarmState
-      - 1.3.6.1.4.1.2636.3.4.2.3.2 #jnxRedAlarmCount
     version: 2
     auth:
       community: public
@@ -41,6 +24,3 @@ modules:
         drop_source_indexes: true
       - source_indexes: [ifIndex]
         lookup: ifType
-      - source_indexes: [jnxOperatingContentsIndex,jnxOperatingL1Index,jnxOperatingL2Index,jnxOperatingL3Index]
-        lookup: 1.3.6.1.4.1.2636.3.1.13.1.5
-        drop_source_indexes: true
