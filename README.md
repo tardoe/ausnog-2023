@@ -41,7 +41,7 @@ http://localhost:8000 - Username: admin / Password: admin
 
 ## Monitoring Components
 ### Prometheus
-Access prometheus from `http://localhost:9090`, no login required. Configuration is in the prometheus directory along with recording rules.
+Access prometheus from `http://localhost:9090`, no login required. Configuration is in the prometheus directory along with recording rules. These recording rules perform `group_left()` queries to match streaming telemetry data with both netbox device data from the Netbox Exporter as well as interface information. You'll notice that the `interface_bitrate_rx:30s` metric also includes connected device labels about the other device, according to netbox.
 ### Blackbox Exporter
 The blackbox exporter pings each network device as discovered from Netbox (device, state = Active). The API key is from the Netbox instance.
 
