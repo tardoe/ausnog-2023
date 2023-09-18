@@ -8,5 +8,5 @@ ip link set up dummy0
 
 # This forces the bridge interface up so Docker can macvlan to it.
 echo "## Creating the bridge, adding dummy0"
-brctl addbr in-band
-brctl addif in-band dummy0
+brctl addbr br-inband
+brctl addif br-inband dummy0
